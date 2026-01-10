@@ -27,7 +27,7 @@ variable "location" {
 variable "keyvault_sku" {
   description = "SKU name for Key Vault"
   type        = string
-  default     = "basic"
+  default     = "standard"
 }
 
 variable "acr_sku" {
@@ -45,7 +45,7 @@ variable "webapp_sku" {
 variable "aks_node_count" {
   description = "Number of nodes in AKS cluster"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "aks_node_size" {

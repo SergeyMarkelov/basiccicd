@@ -24,14 +24,14 @@ Nawiguj w przeglądarce do [portal.azure.com](https://portal.azure.com), uruchom
 Oficjalna dokumentacja: [Cloud Shell Quickstart](https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/cloud-shell/quickstart.md).
 
 ```bash
-git clone https://github.com/wguzik/basicicd.git
+git clone https://github.com/wguzik/basiccicd.git
 ```
 
 > Poniższe kroki realizuje się za pomocą Cloud Shell.
 
 Podstawowym narzędziem do edycji kodu jest wbudowany w `VS Code` w Cloud Shell, który można uruchomić za pomocą polecenia `code`.
 
-Zaloguj się do Azure CLI:
+Jeżeli pracujesz lokalnie, zaloguj się do Azure.
 
 ```bash
 az login
@@ -42,7 +42,7 @@ az login
 1. Utwórz plik `terraform.tfvars` w katalogu `infra`:
 
 ```bash
-cd infra
+cd cd basiccicd/infra/
 cp terraform.tfvars.example terraform.tfvars
 ```
 
@@ -51,7 +51,13 @@ cp terraform.tfvars.example terraform.tfvars
 az account show
 ```
 
-Uzupełnij zmienne:
+Uruchom VS Code w trybie edycji:
+
+```bash
+code .
+```
+
+Otwórz plik `terraform.tfvars` i uzupełnij zmienne:
 
 ```hcl
 subscription_id = "<ID_SUBSKRYPCJI>"
@@ -122,8 +128,27 @@ terraform destroy
 2. **Konflikt nazw**: Niektóre zasoby wymagają unikalnych nazw w skali globalnej (np. ACR).
 3. **Limity zasobów**: Sprawdź czy masz wystarczające limity w subskrypcji.
 
+## Następne Kroki
+
+### Automatyzacja Terraform w Pipeline (Zaawansowane)
+
+W tym module używaliśmy Terraform manualnie. Dla zespołów chcących wdrożyć Infrastructure as Code w pełni zautomatyzowany sposób, zobacz:
+
+- **[README-gitops.md](README-gitops.md)** - część 3 zawiera konfigurację Terraform w GitHub Actions z:
+  - Automatycznym `terraform plan` na Pull Requests
+  - Automatycznym `terraform apply` po merge do `main`
+  - Drift detection - wykrywanie ręcznych zmian w infrastrukturze
+  - Remote state w Azure Storage Backend
+
+To podejście zapewnia:
+- Code review dla zmian infrastruktury
+- Audit trail wszystkich zmian
+- Ochronę przed driftem konfiguracji
+- Automatyczne wykrywanie konfliktów
+
 ## Dokumentacja
 
 - [Terraform Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/)
 - [AKS Documentation](https://learn.microsoft.com/en-us/azure/aks/)
+- [Terraform Automation Best Practices](https://developer.hashicorp.com/terraform/tutorials/automation)
